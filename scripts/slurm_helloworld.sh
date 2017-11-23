@@ -13,5 +13,6 @@
 #SBATCH --mail-type=FAIL
 # This is the job
 echo "Hello World!"
-sleep 30
+sleep 5
+srun
 echo "goodbye world!"
