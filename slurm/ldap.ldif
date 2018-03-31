@@ -1,0 +1,98 @@
+dn: dc=example,dc=com
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: Acme Widgets Inc.
+dc: example
+structuralObjectClass: organization
+entryUUID: 8b2db1aa-c935-1037-8f99-453309393a8d
+creatorsName: cn=admin,dc=example,dc=com
+createTimestamp: 20180331134539Z
+entryCSN: 20180331134539.956328Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=com
+modifyTimestamp: 20180331134539Z
+
+dn: cn=admin,dc=example,dc=com
+objectClass: simpleSecurityObject
+objectClass: organizationalRole
+cn: admin
+description: LDAP administrator
+userPassword:: e1NTSEF9QS9CUVhPTTdkcm5pTEJrYzQ5dkdsTGZrQTEvRklwems=
+structuralObjectClass: organizationalRole
+entryUUID: 8b2f143c-c935-1037-8f9a-453309393a8d
+creatorsName: cn=admin,dc=example,dc=com
+createTimestamp: 20180331134539Z
+entryCSN: 20180331134539.965401Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=com
+modifyTimestamp: 20180331134539Z
+
+dn: ou=groups,dc=example,dc=com
+ou: groups
+objectClass: organizationalUnit
+objectClass: top
+structuralObjectClass: organizationalUnit
+entryUUID: 4398835e-c937-1037-935b-7b86af6fc348
+creatorsName: cn=admin,dc=example,dc=com
+createTimestamp: 20180331135758Z
+entryCSN: 20180331135758.853881Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=com
+modifyTimestamp: 20180331135758Z
+
+dn: cn=admin,ou=groups,dc=example,dc=com
+cn: admin
+gidNumber: 500
+objectClass: posixGroup
+objectClass: top
+structuralObjectClass: posixGroup
+entryUUID: 8c5ff7ac-c937-1037-935c-7b86af6fc348
+creatorsName: cn=admin,dc=example,dc=com
+createTimestamp: 20180331140000Z
+memberUid: 600
+entryCSN: 20180331141057.875778Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=com
+modifyTimestamp: 20180331141057Z
+
+dn: ou=users,dc=example,dc=com
+ou: users
+objectClass: organizationalUnit
+objectClass: top
+structuralObjectClass: organizationalUnit
+entryUUID: 9fcebe36-c937-1037-935d-7b86af6fc348
+creatorsName: cn=admin,dc=example,dc=com
+createTimestamp: 20180331140033Z
+entryCSN: 20180331140033.559669Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=com
+modifyTimestamp: 20180331140033Z
+
+dn: cn=users,ou=groups,dc=example,dc=com
+cn: users
+gidNumber: 501
+objectClass: posixGroup
+objectClass: top
+structuralObjectClass: posixGroup
+entryUUID: c615ab54-c937-1037-935e-7b86af6fc348
+creatorsName: cn=admin,dc=example,dc=com
+createTimestamp: 20180331140137Z
+entryCSN: 20180331140137.777904Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=com
+modifyTimestamp: 20180331140137Z
+
+dn: cn=sam,ou=users,dc=example,dc=com
+cn: sam
+gidNumber: 500
+homeDirectory: home/sam
+objectClass: account
+objectClass: posixAccount
+objectClass: top
+o: sam
+uidNumber: 600
+uid: 600
+userPassword:: e01ENX1NeVV5M1BxaHkvWWVLaVpyMXlOaExBPT0=
+structuralObjectClass: account
+entryUUID: dc9060b2-c938-1037-935f-7b86af6fc348
+creatorsName: cn=admin,dc=example,dc=com
+createTimestamp: 20180331140924Z
+entryCSN: 20180331140924.988699Z#000000#000#000000
+modifiersName: cn=admin,dc=example,dc=com
+modifyTimestamp: 20180331140924Z
+
