@@ -12,7 +12,6 @@ sudo docker run -d --name slurm_ctld \
  		--net=slurm_net \
 		--net-alias=OSLURMCTLD \
 		--ip 172.18.0.100 \
-		-p 8080:80 \
 		slurm:ctld
 
 
