@@ -5,15 +5,13 @@ LABEL maintainer="Dooglz"
 RUN apt-get update
 
 #ensure munge and slurm have same uids accross cluster
-RUN  export MUNGEUID=63000 && export SLURMUID=64030  && \
-		groupadd -g $MUNGEUID munge && \
-		useradd  -M -u $MUNGEUID -g munge  -s /usr/sbin/nologin munge && \
-		groupadd -g $SLURMUID slurm && \
-		useradd  -M -u $SLURMUID -g slurm  -s /usr/sbin/nologin slurm
+RUN export MUNGEUID=63000 && export SLURMUID=64030  && \
+	groupadd -g $MUNGEUID munge && \
+	useradd  -M -u $MUNGEUID -g munge  -s /usr/sbin/nologin munge && \
+	groupadd -g $SLURMUID slurm && \
+	useradd  -M -u $SLURMUID -g slurm  -s /usr/sbin/nologin slurm
 
-ADD --chown=slurm ./slurm.conf /etc/slurm-llnl/slurm.conf
-#munge.key has to be identical across all nodes and controllers
-ADD --chown=munge ./munge.key /etc/munge/munge.key
+
 
 #Envar for LDAP
 ENV dn='dc=example,dc=com'
@@ -45,6 +43,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 
 EXPOSE 22
+
 RUN mkdir /var/run/sshd
 
 CMD  service munge start && service ssh start && \

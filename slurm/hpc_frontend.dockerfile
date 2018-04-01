@@ -2,33 +2,49 @@ FROM ubuntu:bionic
 LABEL maintainer="Dooglz"
 
 #package build step to stop doing this every docker build
-RUN apt-get update
+RUN apt-get update 
+#Install user friendly packages, Huge, not functionally important.
+RUN yes | unminimize
 
+#ensure munge and slurm have same uids accross cluster
+RUN export MUNGEUID=63000 && export SLURMUID=64030  && \
+	groupadd -g $MUNGEUID munge && \
+	useradd  -M -u $MUNGEUID -g munge  -s /usr/sbin/nologin munge && \
+	groupadd -g $SLURMUID slurm && \
+	useradd  -M -u $SLURMUID -g slurm  -s /usr/sbin/nologin slurm
+
+ADD --chown=slurm ./slurm.conf /etc/slurm-llnl/slurm.conf
+#munge.key has to be identical across all nodes and controllers
+ADD --chown=munge ./munge.key /etc/munge/munge.key
+
+#Envar for LDAP
 ENV dn='dc=example,dc=com'
 ENV ldap_ip='ldap'
 
+#Configure LDAP
 RUN echo "ldap-auth-config ldap-auth-config/dbrootlogin boolean false" |debconf-set-selections && \
-echo "ldap-auth-config ldap-auth-config/pam_password select md5" |debconf-set-selections && \
-echo "ldap-auth-config ldap-auth-config/move-to-debconf boolean true" |debconf-set-selections && \
-echo "ldap-auth-config ldap-auth-config/ldapns/ldap-server string ldap://$ldap_ip" |debconf-set-selections && \
-echo "ldap-auth-config ldap-auth-config/ldapns/base-dn string $dn" |debconf-set-selections && \
-echo "ldap-auth-config ldap-auth-config/override boolean true" |debconf-set-selections && \
-echo "ldap-auth-config ldap-auth-config/ldapns/ldap_version select 3" |debconf-set-selections && \
-echo "ldap-auth-config ldap-auth-config/dblogin boolean false" |debconf-set-selections && \
-DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    	libpam-ldap nscd \
-    	slurm-client \
-    	openssh-server \
-    	git bzip2 nano wget && \
-    	rm -rf /var/lib/apt/lists/*
+	echo "ldap-auth-config ldap-auth-config/pam_password select md5" |debconf-set-selections && \
+	echo "ldap-auth-config ldap-auth-config/move-to-debconf boolean true" |debconf-set-selections && \
+	echo "ldap-auth-config ldap-auth-config/ldapns/ldap-server string ldap://$ldap_ip" |debconf-set-selections && \
+	echo "ldap-auth-config ldap-auth-config/ldapns/base-dn string $dn" |debconf-set-selections && \
+	echo "ldap-auth-config ldap-auth-config/override boolean true" |debconf-set-selections && \
+	echo "ldap-auth-config ldap-auth-config/ldapns/ldap_version select 3" |debconf-set-selections && \
+	echo "ldap-auth-config ldap-auth-config/dblogin boolean false" | debconf-set-selections
 
-ADD --chown=slurm ./slurm.conf /etc/slurm-llnl/slurm.conf
-ADD --chown=munge ./munge.key /etc/munge/munge.key
+#LDAP Packages
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    libpam-ldap nscd
 
-
+#Final LDAP config
 RUN auth-client-config -t nss -p lac_ldap && \
 	echo "session required    pam_mkhomedir.so skel=/etc/skel umask=0022" >> /etc/pam.d/common-session && \
 	/etc/init.d/nscd restart
+
+#Install slurm cli, and some useful packages
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    slurm-client  \
+    git bzip2 nano wget openssh-server && \
+    rm -rf /var/lib/apt/lists/*
 
 EXPOSE 22
 
