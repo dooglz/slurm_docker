@@ -16,6 +16,11 @@ sudo docker run -d --name slurm_node \
 		--net-alias=snode1 \
 		slurm:node
 
+sudo docker exec -it slurm_ctld scontrol update nodename=snode1 state=IDLE
+
+#run this on ctrl 
+#scontrol update nodename=snode1 state=IDLE
+
 
 #Run this to get inside
-#dk exec -it slurm_ctld /bin/bash
+#dk exec -it slurm_node /bin/bash

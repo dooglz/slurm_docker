@@ -21,7 +21,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 #	echo "?>" >> /etc/phpldapadmin/config.php
 
 #ADD --chown=slurm http://games.soc.napier.ac.uk/a/slurm.html /etc/slurm-llnl/slurm.conf
-ADD 	--chown=slurm ./slurm.conf /etc/slurm-llnl/slurm.conf
+ADD --chown=slurm ./slurm.conf /etc/slurm-llnl/slurm.conf
 
 CMD	service munge start && \
 	mkdir -p /slurmctld/log/ && mkdir -p /slurmctld/log/ &&  chown -R slurm /slurmctld/ && \

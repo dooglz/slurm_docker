@@ -7,7 +7,6 @@ sudo docker kill slurm_ctld || true
 sudo docker rm slurm_ctld || true
 sudo docker network create slurm_net --subnet=172.18.0.0/16 || true
 
-sudo docker build -t slurm:master -f slurm_ctld.dockerfile .
 #sudo docker run -v $PWD/slurmctld/:/slurmctld/ -d --name slurm_ctld --hostname=OSLURMCTLD slurm:master
                 #--dns-search=slurm --dns=192.168.1.1 \
                 # --restart=always
