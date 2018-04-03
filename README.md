@@ -1,37 +1,31 @@
-## Welcome to GitHub Pages
+## SLURM Cluster Via Docker
 
-You can use the [editor on GitHub](https://github.com/dooglz/hpc/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+This is a minimal and bad, but **Working!** example of a Slurm (aka slurm-wlm, aka slurm llnl) compute cluster. This should work on bare metal ubuntu 18.04 machines, or in docker.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+This isn't anywhere near production ready, treat it as useful infomration on your own slurm sysadmin quest.
 
-### Markdown
+I couldn't get slurm to compile reliantly, so I'm using the verison from Ubuntu's Repos. Ubuntu 18.04 has a resonably new version.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+#### Slurm images ####
 
-```markdown
-Syntax highlighted code block
+There are three images
+- slurm_ctld - Slurm controller
+- slurm_node - lurm compute node
+- hpc_frontend - has slurm commandline tools, a simulation to how you may setup your own cluster 
 
-# Header 1
-## Header 2
-### Header 3
+#### LDAP ####
 
-- Bulleted
-- List
+An annoying trait of slurm is that if user Bob runs a job, Bob must have an account on every node that the job runs on.
 
-1. Numbered
-2. List
+I've taken the LDAP route to sync users accross the cluster.
+Docker image l**dap_host** hosts an ldap server, with a php web interface ( "lam" dap-account-manager. Beacuse phpldapadmin is old and busted).
 
-**Bold** and _Italic_ and `Code` text
+Each of the other docker images are configured as LDAP clients. If you are using this for your own infrastructure it shouldn't be too hard to drop my ldap host image and use your own ldap server.
 
-[Link](url) and ![Image](src)
-```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+## No Warranty
+I've wasted far too many weekends getting slurm to work.
 
-### Jekyll Themes
+I hope you fid this usefull
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/dooglz/hpc/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Don't expect this to work forever.
