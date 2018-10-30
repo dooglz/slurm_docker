@@ -23,9 +23,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/PySlurm/pyslurm.git && cd pyslurm && git checkout 3db8af9
 RUN ln -sf /usr/include/slurm-wlm/ /usr/include/slurm && mkdir /usr/lib/slurm && ln -sf /usr/lib/x86_64-linux-gnu /usr/lib/slurm/lib
 RUN cd /pyslurm && python3 setup.py build --slurm-inc=/usr/include/ --slurm-lib=/usr/lib/slurm && python3 setup.py install
-
+RUN pip3 install flask
 ADD --chown=slurm ./slurm.conf /etc/slurm-llnl/slurm.conf
 
 EXPOSE 80
 
-CMD service munge start
+CMD service munge start && \
+    export LC_ALL=C.UTF-8 && \
+    export LANG=C.UTF-8 && \
+    export FLASK_ENV=development && \
+    FLASK_APP=/pyslurm_site/website.py flask run --port=80 --host=0.0.0.0

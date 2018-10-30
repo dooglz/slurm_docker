@@ -12,6 +12,7 @@ sudo docker run -d --name pyslurm \
  		--net=slurm_net \
 		--net-alias=pyslurm \
 		--ip 172.18.0.180 \
+		-v $PWD/pyslurm_site:/pyslurm_site \
 		-p 8090:80 \
 		pyslurm || exit 1;
 
