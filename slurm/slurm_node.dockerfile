@@ -11,7 +11,6 @@ RUN export MUNGEUID=63000 && export SLURMUID=64030  && \
 	groupadd -g $SLURMUID slurm && \
 	useradd  -M -u $SLURMUID -g slurm  -s /usr/sbin/nologin slurm
 
-ADD --chown=slurm ./slurm.conf /etc/slurm-llnl/slurm.conf
 #munge.key has to be identical across all nodes and controllers
 ADD --chown=munge ./munge.key /etc/munge/munge.key
 
@@ -43,6 +42,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     slurmd  \
     git bzip2 nano wget openssh-server && \
     rm -rf /var/lib/apt/lists/*
+
+ADD --chown=slurm ./slurm.conf /etc/slurm-llnl/slurm.conf
 
 EXPOSE 22
 
